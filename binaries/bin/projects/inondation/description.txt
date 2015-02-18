@@ -1,0 +1,27 @@
+--  FLOOD  --
+
+  a very simple example
+  a random walk with one walker:
+    there is only one message in the network
+    this message is emitted by a (single) initiator (called InitNode)
+    it is transmitted through the network 
+       the next node is chosen at random uniformly among the neighbors
+       (we call this function randomChoice)
+    ... until it reaches its destination: the EndNode which stops it.
+    
+ Algorithm: (the message is called "flood")
+
+    1: if InitNode then
+    2:     send the msg to all the neighbours
+
+	3: forever
+    4:     receive the flood from some node N
+    4:     if EndNode then
+    5:          change of color (Black)
+    			do nothing more
+    6:     else
+    			if this.color != default_color
+    		        send the flood msg to the neighbours
+    		        change color (Black) 
+    		        
+    		        
