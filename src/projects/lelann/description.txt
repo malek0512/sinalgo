@@ -1,0 +1,86 @@
+--  WALKER  --
+
+  a very simple example
+  a random walk with one walker:
+    there is only one message in the network
+    this message is emitted by a (single) initiator (called InitNode)
+    it is transmitted through the network 
+       the next node is chosen at random uniformly among the neighbors
+       (we call this function randomChoice)
+    ... until it reaches its destination: the EndNode which stops it.
+ 
+ /************* CODE ***********************/   
+ Algorithm: (the message is called "msg")
+	Type : 
+		ID : Integer
+	Variables :
+		Leader : boolean
+		List<ID> : LinkedList<ID>
+		IDc : ID
+		
+	/*Algo pour initiateur*/
+	if InitNode then
+		List <- List U {IDc}
+		send message <InitMsg, IDc> à D
+		while (true)
+			receptionner message <msg, ID> from G
+			if(! IC == IDc)
+				send message <msg, ID> to D
+			else
+				Leader <- IDc == min (List)
+		
+	/*Algo pour Non initiateur*/
+	if not InitNode then
+		Leader <- false
+		while (true)
+			receptionner message <msg, ID> from G
+			send message <msg, ID> to D
+
+/************* CODE ***********************/		
+
+
+Optimisation : 
+1 - On choisi le min au fur et à mesure. La liste n'est plus indispensable. Quand un message arrive avec 
+un id plus grand que le noeud courant, il n'est certainement pas le Leader. 
+2 -   
+
+ /************* CODE ***********************/   
+ Algorithm: (the message is called "msg")
+	Type : 
+		ID : Integer
+	Variables :
+		Leader : boolean
+		IDc : ID
+		
+	/*Algo pour initiateur*/
+	if InitNode then
+		Leader <- False
+		send message <InitMsg, IDc> à D
+		while (true)
+			receptionner message <msg, ID> from G
+			if(! ID == IDc)
+				Leader <- True
+			else if( ID <= IDc)
+				send message <msg, ID> to D
+		
+	/*Algo pour Non initiateur*/
+	if not InitNode then
+		Leader <- false
+		while (true)
+			receptionner message <msg, ID> from G
+			if(! ID < IDc)
+				send message <msg, ID> to D
+
+/************* CODE ***********************/		
+
+L'ordre FIFO n'est plus obligatoire car même si un paquet va beaucoup plus vite que tout les autres, et que donc 
+IDrapide == IDCrapide la Node min le rejetera avant.
+
+En performance temps le pire des cas est : 
+	- si le paquet du node min est le plus lent
+	- le meilleur des cas le paquet du node min est le plus rapide 
+	Si n node on a n*qantum(vitesse_paquet) 
+	
+En performance memoire
+	- Il n'y a plus de liste memorisant n identfifiant de node.
+	
